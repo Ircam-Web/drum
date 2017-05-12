@@ -3,12 +3,12 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib import admin
 from django.db import connection
+from mezzanine.core.admin import *
 
-from mezzanine.core.admin import DisplayableAdmin
 from drum.links.models import Link
 
 
-class LinkAdmin(DisplayableAdmin):
+class LinkAdmin(BaseTranslationModelAdmin):
 
     list_display = ("id", "title", "link", "status", "publish_date",
                     "user", "comments_count", "rating_sum")
@@ -54,4 +54,3 @@ admin.site.register(Link, LinkAdmin)
 if getattr(settings, "AUTO_TAG", False):
     from mezzanine.generic.models import Keyword
     admin.site.register(Keyword, KeywordAdmin)
-
