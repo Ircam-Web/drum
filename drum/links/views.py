@@ -5,7 +5,8 @@ from datetime import timedelta
 
 from django.contrib.auth.models import User
 from django.contrib.messages import info, error
-
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.timezone import now
 from django.views.generic import ListView, CreateView, DetailView, TemplateView
@@ -55,6 +56,10 @@ class UserFilterView(ListView):
                               "like seriously, I totally got nothin.")
         return context
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
 
 class ScoreOrderingView(UserFilterView):
     """
@@ -84,6 +89,10 @@ class ScoreOrderingView(UserFilterView):
         context["title"] = self.get_title(context)
         return context
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
 
 class LinkView(object):
     """
@@ -95,6 +104,10 @@ class LinkView(object):
             "user",
             "user__%s" % USER_PROFILE_RELATED_NAME
         )
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
 
 class LinkList(LinkView, ScoreOrderingView):
@@ -129,6 +142,10 @@ class LinkList(LinkView, ScoreOrderingView):
         else:
             return "Newest"
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
 
 class LinkCreate(CreateView):
     """
@@ -159,6 +176,10 @@ class LinkCreate(CreateView):
         info(self.request, "Link created")
         return super(LinkCreate, self).form_valid(form)
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
 
 class LinkDetail(LinkView, DetailView):
     """
@@ -166,6 +187,10 @@ class LinkDetail(LinkView, DetailView):
     in its template.
     """
     pass
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
 
 class CommentList(ScoreOrderingView):
@@ -197,6 +222,14 @@ class CommentList(ScoreOrderingView):
         else:
             return "Latest comments"
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
 
 class TagList(TemplateView):
     template_name = "links/tag_list.html"
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
