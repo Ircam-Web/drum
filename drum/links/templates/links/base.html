@@ -1,19 +1,8 @@
-<!doctype html>
-<html lang="{{ LANGUAGE_CODE }}">
+{% extends "base.html" %}
 {% load mezzanine_tags i18n staticfiles %}
-<head>
 
-<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width">
-<meta name="keywords" content="{% block meta_keywords %}{% endblock %}">
-<meta name="description" content="{% block meta_description %}{% endblock %}">
-<title>{% block meta_title %}{% endblock %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif %}</title>
-<link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico">
+{% block extra_head %}
 
-<style>
-@import url("http://fonts.googleapis.com/css?family=Lato:400,700,900,400italic");
-@import url(http://fonts.googleapis.com/css?family=Risque);
-</style>
 {% compress css %}
 <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap2.css">
 <link rel="stylesheet" href="{{ STATIC_URL }}css/mezzanine1.css">
@@ -30,21 +19,10 @@
 <script src="{{ STATIC_URL }}js/jquery.pjax.js"></script>
 {% endcompress %}
 
-{% block extra_head %}{% endblock %}
+{% endblock %}
 
-</head>
-<body>
-
-<div class="navbar navbar-inverse">
-<div class="navbar-inner navbar-fixed-top">
+{% block main %}
 <div class="container">
-    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-    </a>
-
-    {% if settings.SITE_TITLE %}<a class="brand" href="/">{{ settings.SITE_TITLE }}</a>{% endif %}
     <ul class="nav">
         <li class="divider-vertical"></li>
         {% url "link_list_latest" as link_list_latest %}
@@ -63,45 +41,19 @@
         <ul class="nav pull-right"><li class="divider-vertical"></li></ul>
         {% search_form %}
         {% nevercache %}
-        {# {% include "accounts/includes/user_panel_nav.html" %}#}
+        {% include "accounts/includes/user_panel_nav.html" %}
         {% endnevercache %}
     </div>
-</div>
-</div>
-</div>
 
-<div class="container main">
-{% nevercache %}
-{% for message in messages %}
-<div class="alert alert-{{ message.tags }}" data-alert="alert">
-    <a class="close" href="#" onclick="$(this).parent().fadeOut('fast'); return false;">×</a>{{ message }}
+    <div class="container main">
+    {% nevercache %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" data-alert="alert">
+        <a class="close" href="#" onclick="$(this).parent().fadeOut('fast'); return false;">×</a>{{ message }}
+    </div>
+    {% endfor %}
+    {% endnevercache %}
+    <h1>{% block title %}{% endblock %}</h1>
+    </div>
 </div>
-{% endfor %}
-{% endnevercache %}
-<h1>{% block title %}{% endblock %}</h1>
-</div>
-
-<div class="container main">
-<div class="row">
-<div class="span12 middle">
-    {% block main %}{% endblock %}
-</div>
-</div>
-</div>
-
-<footer>
-<div class="container">
-    <p>
-        Made by <a href="http://twitter.com/stephen_mcd">Stephen McDonald</a>
-        <span class="separator">|</span>
-        <a href="https://github.com/stephenmcd/drum">Open Source</a>
-        <span class="separator">|</span>
-        {% trans "Powered by" %} <a href="http://mezzanine.jupo.org">Mezzanine</a>
-    </p>
-</div>
-</footer>
-
-{% include "includes/footer_scripts.html" %}
-
-</body>
-</html>
+{% endblock %}
