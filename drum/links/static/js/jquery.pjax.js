@@ -42,7 +42,7 @@ $(function() {
             });
         };
 
-        $('a').live('click', function(event) {
+        $('a').on('click', function(event) {
             var host = location.protocol + '//' + location.hostname
             if (this.href.substr('#') >= 0) {
                 return false;
