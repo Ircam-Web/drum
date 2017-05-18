@@ -118,7 +118,7 @@ class LinkList(LinkView, ScoreOrderingView):
     created ("newest" main nav item).
     """
 
-    date_field = "publish_date"
+    date_field = "links_link.publish_date"
     score_fields = ["rating_sum", "comments_count"]
 
     def get_queryset(self):
