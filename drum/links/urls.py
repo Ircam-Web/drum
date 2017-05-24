@@ -9,7 +9,7 @@ from drum.links.views import LinkList, LinkCreate, LinkDetail, CommentList, TagL
 urlpatterns = [
     url("^$",
         LinkList.as_view(),
-        name="home"),
+        name="home_drum"),
     url("^newest/$",
         LinkList.as_view(), {"by_score": False},
         name="link_list_latest"),

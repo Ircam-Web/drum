@@ -44,7 +44,7 @@
         <span class="icon-bar"></span>
     </a>
 
-    {% if settings.SITE_TITLE %}<a class="brand" href="/">{{ settings.SITE_TITLE }}</a>{% endif %}
+    {% if settings.SITE_TITLE %}<a class="brand" href="{% url 'home_drum' %}">{{ settings.SITE_TITLE }}</a>{% endif %}
     <ul class="nav">
         <li class="divider-vertical"></li>
         {% url "link_list_latest" as link_list_latest %}
